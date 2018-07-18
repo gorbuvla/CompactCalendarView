@@ -154,5 +154,4 @@ public class EventsContainer {
     private String getKeyForCalendarEvent(Calendar cal) {
         return cal.get(Calendar.YEAR) + "_" + cal.get(Calendar.MONTH);
     }
-
 }

@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.OverScroller;
 
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.github.sundeepk.compactcalendarview.domain.MarkedDay;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -95,7 +96,7 @@ public class CompactCalendarView extends View {
                 new Rect(), attrs, getContext(),  Color.argb(255, 233, 84, 81),
                 Color.argb(255, 64, 64, 64), Color.argb(255, 219, 219, 219), VelocityTracker.obtain(),
                 Color.argb(255, 100, 68, 65), new EventsContainer(Calendar.getInstance()),
-                Locale.getDefault(), TimeZone.getDefault());
+                new MarkedDayContainer(Calendar.getInstance()), Locale.getDefault(), TimeZone.getDefault());
         gestureDetector = new GestureDetectorCompat(getContext(), gestureListener);
         animationHandler = new AnimationHandler(compactCalendarController, this);
     }
@@ -136,6 +137,14 @@ public class CompactCalendarView extends View {
 
     public void setWeekdayTypeface(Typeface typeface) {
         compactCalendarController.setWeekdayTypeface(typeface);
+    }
+
+    public void setSelectedDayTypeface(Typeface typeface) {
+        compactCalendarController.setSelectedDayTypeface(typeface);
+    }
+
+    public void setMarkedDayTypeface(Typeface typeface) {
+        compactCalendarController.setMarkedDayTypeface(typeface);
     }
 
     /*
@@ -313,6 +322,10 @@ public class CompactCalendarView extends View {
     public void removeAllEvents() {
         compactCalendarController.removeAllEvents();
         invalidate();
+    }
+
+    public void addMarkedDay(MarkedDay markedDay) {
+        compactCalendarController.addMarkedDay(markedDay);
     }
 
     public void setIsRtl(boolean isRtl) {

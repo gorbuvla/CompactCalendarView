@@ -21,7 +21,9 @@ import android.widget.RelativeLayout;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.github.sundeepk.compactcalendarview.domain.MarkedDay;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +33,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 public class CompactCalendarTab extends Fragment {
 
@@ -69,17 +72,43 @@ public class CompactCalendarTab extends Fragment {
         compactCalendarView.setIsRtl(false);
         compactCalendarView.displayOtherMonthDays(false);
 
-        // test purposes
+        // TODO: remove
+        // corresponds to my list of enchancements
+        compactCalendarView.displayOtherMonthDays(true);
+        // E1
         String[] arr = {"MO", "TU", "WE", "TH", "FR", "SA", "SU"};
         compactCalendarView.setDayColumnNames(arr);
-
+        // colors are set int xml
         compactCalendarView.setCalendarTypeface(Typeface.DEFAULT_BOLD);
         compactCalendarView.setWeekdayTypeface(Typeface.MONOSPACE);
+        compactCalendarView.setSelectedDayTypeface(Typeface.MONOSPACE);
+        compactCalendarView.setMarkedDayTypeface(Typeface.DEFAULT_BOLD);
+
+        // E2
+        compactCalendarView.shouldSelectFirstDayOfMonthOnScroll(false);
+
 
         //compactCalendarView.setIsRtl(true);
         loadEvents();
         loadEventsForYear(2017);
+
+        compactCalendarView.addEvent(new Event(Color.RED, new Date().getTime() - TimeUnit.DAYS.toMillis(1), "data"));
+        compactCalendarView.addEvent(new Event(Color.GREEN, new Date().getTime() - TimeUnit.DAYS.toMillis(1), "data"));
+        compactCalendarView.addEvent(new Event(Color.BLUE, new Date().getTime() - TimeUnit.DAYS.toMillis(1), "data"));
+
+
+        compactCalendarView.addEvent(new Event(Color.RED, new Date().getTime() - TimeUnit.DAYS.toMillis(2), "data"));
+        compactCalendarView.addEvent(new Event(Color.GREEN, new Date().getTime() - TimeUnit.DAYS.toMillis(2), "data"));
+        compactCalendarView.addEvent(new Event(Color.BLUE, new Date().getTime() - TimeUnit.DAYS.toMillis(2), "data"));
+        compactCalendarView.addEvent(new Event(Color.RED, new Date().getTime() - TimeUnit.DAYS.toMillis(2), "data"));
+
+        compactCalendarView.addEvent(new Event(Color.BLUE, new Date().getTime(), "data"));
+        compactCalendarView.addEvent(new Event(Color.RED, new Date().getTime(), "data"));
+
+        compactCalendarView.addMarkedDay(new MarkedDay(Color.RED, new Date().getTime() + TimeUnit.DAYS.toMillis(3)));
+
         compactCalendarView.invalidate();
+
 
         logEventsByMonth(compactCalendarView);
 
