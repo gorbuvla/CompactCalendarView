@@ -3,9 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:id="@+id/main_content"
-    >
-
+    android:id="@+id/main_content">
 
     <com.github.sundeepk.compactcalendarview.CompactCalendarView
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,7 +11,9 @@
         android:layout_width="fill_parent"
         android:layout_height="250dp"
         app:compactCalendarTargetHeight="250dp"
-        app:compactCalendarTextSize="12sp"
+        app:compactCalendarTextSize="16sp"
+        app:compactCalendarWeekdayTextSize="14sp"
+        app:compactCalendarWeekdayTextColor="#000000"
         app:compactCalendarBackgroundColor="#ffe95451"
         app:compactCalendarTextColor="#fff"
         app:compactCalendarCurrentSelectedDayBackgroundColor="#ffbd5f5f"
@@ -31,7 +31,6 @@
         android:text="Scroll Left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-
 
     <Button
         android:layout_below="@+id/compactcalendar_view"
@@ -91,5 +90,4 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </ListView>
-
 </RelativeLayout>

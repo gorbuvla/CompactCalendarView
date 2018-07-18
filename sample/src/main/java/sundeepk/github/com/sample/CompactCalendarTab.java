@@ -1,6 +1,7 @@
 package sundeepk.github.com.sample;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -63,10 +64,18 @@ public class CompactCalendarTab extends Fragment {
         // compactCalendarView.setCurrentDayBackgroundColor(getResources().getColor(R.color.black));
         // below allows you to configure colors for the current day the user has selected
         // compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.dark_red));
-        compactCalendarView.setUseThreeLetterAbbreviation(false);
+        //compactCalendarView.setUseThreeLetterAbbreviation(false);
         compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
         compactCalendarView.setIsRtl(false);
         compactCalendarView.displayOtherMonthDays(false);
+
+        // test purposes
+        String[] arr = {"MO", "TU", "WE", "TH", "FR", "SA", "SU"};
+        compactCalendarView.setDayColumnNames(arr);
+
+        compactCalendarView.setCalendarTypeface(Typeface.DEFAULT_BOLD);
+        compactCalendarView.setWeekdayTypeface(Typeface.MONOSPACE);
+
         //compactCalendarView.setIsRtl(true);
         loadEvents();
         loadEventsForYear(2017);

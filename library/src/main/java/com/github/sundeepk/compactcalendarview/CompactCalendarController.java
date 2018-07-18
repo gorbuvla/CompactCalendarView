@@ -50,7 +50,8 @@ class CompactCalendarController {
     private int widthPerDay;
     private int monthsScrolledSoFar;
     private int heightPerDay;
-    private int textSize = 30;
+    private int weekdayTextSize = 30;
+    private int calendarTextSize = 30;
     private int width;
     private int height;
     private int paddingRight;
@@ -94,6 +95,8 @@ class CompactCalendarController {
     private OverScroller scroller;
     private Paint dayPaint = new Paint();
     private Paint background = new Paint();
+    private Typeface weekdayTypeface = Typeface.DEFAULT_BOLD;
+    private Typeface calendarTypeface = Typeface.SANS_SERIF;
     private Rect textSizeRect;
     private String[] dayColumnNames;
 
@@ -102,6 +105,7 @@ class CompactCalendarController {
     private int currentDayBackgroundColor;
     private int currentDayTextColor;
     private int calenderTextColor;
+    private int weekdayTextColor;
     private int currentSelectedDayBackgroundColor;
     private int currentSelectedDayTextColor;
     private int calenderBackgroundColor = Color.WHITE;
@@ -127,6 +131,7 @@ class CompactCalendarController {
         this.textSizeRect = textSizeRect;
         this.currentDayBackgroundColor = currentDayBackgroundColor;
         this.calenderTextColor = calenderTextColor;
+        this.weekdayTextColor = calenderTextColor;
         this.currentSelectedDayBackgroundColor = currentSelectedDayBackgroundColor;
         this.otherMonthDaysTextColor = calenderTextColor;
         this.velocityTracker = velocityTracker;
@@ -145,14 +150,17 @@ class CompactCalendarController {
             try {
                 currentDayBackgroundColor = typedArray.getColor(R.styleable.CompactCalendarView_compactCalendarCurrentDayBackgroundColor, currentDayBackgroundColor);
                 calenderTextColor = typedArray.getColor(R.styleable.CompactCalendarView_compactCalendarTextColor, calenderTextColor);
+                weekdayTextColor = typedArray.getColor(R.styleable.CompactCalendarView_compactCalendarWeekdayTextColor, calenderTextColor);
                 currentDayTextColor = typedArray.getColor(R.styleable.CompactCalendarView_compactCalendarCurrentDayTextColor, calenderTextColor);
                 otherMonthDaysTextColor = typedArray.getColor(R.styleable.CompactCalendarView_compactCalendarOtherMonthDaysTextColor, otherMonthDaysTextColor);
                 currentSelectedDayBackgroundColor = typedArray.getColor(R.styleable.CompactCalendarView_compactCalendarCurrentSelectedDayBackgroundColor, currentSelectedDayBackgroundColor);
                 currentSelectedDayTextColor = typedArray.getColor(R.styleable.CompactCalendarView_compactCalendarCurrentSelectedDayTextColor, calenderTextColor);
                 calenderBackgroundColor = typedArray.getColor(R.styleable.CompactCalendarView_compactCalendarBackgroundColor, calenderBackgroundColor);
                 multiEventIndicatorColor = typedArray.getColor(R.styleable.CompactCalendarView_compactCalendarMultiEventIndicatorColor, multiEventIndicatorColor);
-                textSize = typedArray.getDimensionPixelSize(R.styleable.CompactCalendarView_compactCalendarTextSize,
-                        (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, textSize, context.getResources().getDisplayMetrics()));
+                calendarTextSize = typedArray.getDimensionPixelSize(R.styleable.CompactCalendarView_compactCalendarTextSize,
+                        (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, calendarTextSize, context.getResources().getDisplayMetrics()));
+                weekdayTextSize = typedArray.getDimensionPixelSize(R.styleable.CompactCalendarView_compactCalendarWeekdayTextSize,
+                        (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, weekdayTextSize, context.getResources().getDisplayMetrics()));
                 targetHeight = typedArray.getDimensionPixelSize(R.styleable.CompactCalendarView_compactCalendarTargetHeight,
                         (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, targetHeight, context.getResources().getDisplayMetrics()));
                 eventIndicatorStyle = typedArray.getInt(R.styleable.CompactCalendarView_compactCalendarEventIndicatorStyle, SMALL_INDICATOR);
@@ -186,8 +194,8 @@ class CompactCalendarController {
         dayPaint.setTextAlign(Paint.Align.CENTER);
         dayPaint.setStyle(Paint.Style.STROKE);
         dayPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        dayPaint.setTypeface(Typeface.SANS_SERIF);
-        dayPaint.setTextSize(textSize);
+        dayPaint.setTypeface(calendarTypeface);
+        dayPaint.setTextSize(calendarTextSize);
         dayPaint.setColor(calenderTextColor);
         dayPaint.getTextBounds("31", 0, "31".length(), textSizeRect);
         textHeight = textSizeRect.height() * 3;
@@ -263,6 +271,14 @@ class CompactCalendarController {
 
     void setCurrentSelectedDayIndicatorStyle(int currentSelectedDayIndicatorStyle){
         this.currentSelectedDayIndicatorStyle = currentSelectedDayIndicatorStyle;
+    }
+
+    void setWeekdayTypeface(Typeface weekdayTypeface) {
+        this.weekdayTypeface = weekdayTypeface;
+    }
+
+    void setCalendarTypeface(Typeface calendarTypeface) {
+        this.calendarTypeface = calendarTypeface;
     }
 
     void setTargetHeight(int targetHeight) {
@@ -912,12 +928,16 @@ class CompactCalendarController {
             if (dayRow == 0) {
                 // first row, so draw the first letter of the day
                 if (shouldDrawDaysHeader) {
-                    dayPaint.setColor(calenderTextColor);
-                    dayPaint.setTypeface(Typeface.DEFAULT_BOLD);
+                    dayPaint.setColor(weekdayTextColor);
+                    dayPaint.setTextSize(weekdayTextSize);
                     dayPaint.setStyle(Paint.Style.FILL);
-                    dayPaint.setColor(calenderTextColor);
+                    dayPaint.setTypeface(weekdayTypeface);
+                    //dayPaint.setColor(calenderTextColor); // why ??
                     canvas.drawText(dayColumnNames[colDirection], xPosition, paddingHeight, dayPaint);
-                    dayPaint.setTypeface(Typeface.DEFAULT);
+                    // prepare paint for next iter
+                    dayPaint.setColor(calenderTextColor);
+                    dayPaint.setTextSize(calendarTextSize);
+                    dayPaint.setTypeface(calendarTypeface);
                 }
             } else {
                 int day = ((dayRow - 1) * 7 + colDirection + 1) - firstDayOfMonth;

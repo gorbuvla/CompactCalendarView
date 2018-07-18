@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -124,6 +125,17 @@ public class CompactCalendarView extends View {
     public void setCalendarBackgroundColor(final int calenderBackgroundColor) {
         compactCalendarController.setCalenderBackgroundColor(calenderBackgroundColor);
         invalidate();
+    }
+
+    /*
+    Setters for custom typefaces.
+     */
+    public void setCalendarTypeface(Typeface typeface) {
+        compactCalendarController.setCalendarTypeface(typeface);
+    }
+
+    public void setWeekdayTypeface(Typeface typeface) {
+        compactCalendarController.setWeekdayTypeface(typeface);
     }
 
     /*
