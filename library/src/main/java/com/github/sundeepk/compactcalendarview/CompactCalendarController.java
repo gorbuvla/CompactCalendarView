@@ -721,7 +721,23 @@ class CompactCalendarController {
     }
 
     void addMarkedDay(MarkedDay markedDay) {
-        markedDayContainer.addSpecialDay(markedDay);
+        markedDayContainer.addMarkedDay(markedDay);
+    }
+
+    void addMarkedDays(List<MarkedDay> markedDays) {
+        markedDayContainer.addMarkedDays(markedDays);
+    }
+
+    void removeMarkedDay(MarkedDay markedDay) {
+        markedDayContainer.removeMarkedDay(markedDay);
+    }
+
+    void removeMarkedDays(List<MarkedDay> markedDays) {
+        markedDayContainer.removeMarkedDays(markedDays);
+    }
+
+    void removeAllMarkedDays() {
+        markedDayContainer.removeAllMarkedDays();
     }
 
     void setGrowProgress(float grow) {

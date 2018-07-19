@@ -48,6 +48,7 @@ public class CompactCalendarControllerTest {
     @Mock private MotionEvent motionEvent;
     @Mock private VelocityTracker velocityTracker;
     @Mock private EventsContainer eventsContainer;
+    @Mock private MarkedDayContainer markedDaysContainer;
 
     private static final String[] dayColumnNames = {"M", "T", "W", "T", "F", "S", "S"};
 
@@ -60,7 +61,7 @@ public class CompactCalendarControllerTest {
 
         when(velocityTracker.getXVelocity()).thenReturn(-200f);
         underTest =
-                new CompactCalendarController(paint, overScroller, rect, null, null, 0, 0, 0, velocityTracker, 0, eventsContainer, Locale.getDefault(), TimeZone.getDefault());
+                new CompactCalendarController(paint, overScroller, rect, null, null, 0, 0, 0, velocityTracker, 0, eventsContainer, markedDaysContainer, Locale.getDefault(), TimeZone.getDefault());
     }
 
     @Test(expected=IllegalArgumentException.class)

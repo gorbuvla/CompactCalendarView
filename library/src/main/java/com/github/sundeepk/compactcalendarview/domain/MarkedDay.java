@@ -20,5 +20,4 @@ public class MarkedDay {
     public long getTimeInMillis() {
         return timeInMillis;
     }
-
 }
