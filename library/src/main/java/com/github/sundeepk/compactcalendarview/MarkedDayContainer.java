@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Container hosting marked day DTOs.
+ */
 public class MarkedDayContainer {
 
     private Map<String, SparseArray<MarkedDay>> markedDayMap = new HashMap<>();
@@ -92,7 +95,6 @@ public class MarkedDayContainer {
             removeMarkedDay(day);
         }
     }
-
 
     void removeAllMarkedDays() {
         markedDayMap.clear();

@@ -325,7 +325,91 @@ public class CompactCalendarView extends View {
     }
 
     public void addMarkedDay(MarkedDay markedDay) {
+        addMarkedDay(markedDay, true);
+    }
+
+    public void addMarkedDay(MarkedDay markedDay, Boolean shouldInvalidate) {
         compactCalendarController.addMarkedDay(markedDay);
+        if (shouldInvalidate) {
+            invalidate();
+        }
+    }
+
+    /**
+     * Adds multiple events to the calendar and invalidates the view once all events are added.
+     */
+    public void addMarkedDays(List<MarkedDay> days){
+        compactCalendarController.addMarkedDays(days);
+        invalidate();
+    }
+
+    /**
+     * Get marked day corresponding to passed Date.
+     */
+    public MarkedDay getMarkedDay(Date date) {
+        return getMarkedDay(date.getTime());
+    }
+
+    public MarkedDay getMarkedDay(long timeInMillis) {
+        return compactCalendarController.getMarkedDayFor(timeInMillis);
+    }
+
+    /**
+     * Get marked days corresponding to passed Date.
+     */
+    public List<MarkedDay> getMarkedDaysForMonth(Date date) {
+        return getMarkedDaysForMonth(date.getTime());
+    }
+
+    public List<MarkedDay> getMarkedDaysForMonth(long timeInMillis) {
+        return compactCalendarController.getMarkedDaysForMonth(timeInMillis);
+    }
+
+    /**
+     * Remove marked day corresponding to specified Date.
+     */
+    public void removeMarkedDay(Date date) {
+        compactCalendarController.removeMarkedDay(date.getTime());
+    }
+
+    public void removeMarkedDay(long timeInMillis) {
+        compactCalendarController.removeMarkedDay(timeInMillis);
+    }
+
+    /**
+     * Removes marked day and invalidates calendar view.
+     */
+    public void removeMarkedDay(MarkedDay markedDay) {
+        removeMarkedDay(markedDay, true);
+    }
+
+    /**
+     * Removes specified marked day from calendar.
+     * @param day marked day to remove.
+     * @param shouldInvalidate whether view should be invalidated
+     */
+    public void removeMarkedDay(MarkedDay day, boolean shouldInvalidate) {
+        compactCalendarController.removeMarkedDay(day);
+        if (shouldInvalidate) {
+            invalidate();
+        }
+    }
+
+    /**
+     * Removes specified marked days from calendar.
+     * @param days
+     */
+    public void removeMarkedDays(List<MarkedDay> days) {
+        compactCalendarController.removeMarkedDays(days);
+        invalidate();
+    }
+
+    /**
+     * Removes all marked days from calendar.
+     */
+    public void removeAllMarkedDays() {
+        compactCalendarController.removeAllMarkedDays();
+        invalidate();
     }
 
     public void setIsRtl(boolean isRtl) {

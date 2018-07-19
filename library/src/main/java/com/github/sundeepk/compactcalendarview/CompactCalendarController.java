@@ -89,8 +89,8 @@ class CompactCalendarController {
     private Direction currentDirection = Direction.NONE;
     private Date currentDate = new Date();
     private Locale locale;
-    private Calendar currentCalender;
-    private Calendar todayCalender;
+    private Calendar currentCalendar;
+    private Calendar todayCalendar;
     private Calendar calendarWithFirstDayOfMonth;
     private Calendar eventsCalendar;
     private EventsContainer eventsContainer;
@@ -183,8 +183,8 @@ class CompactCalendarController {
     }
 
     private void init(Context context) {
-        currentCalender = Calendar.getInstance(timeZone, locale);
-        todayCalender = Calendar.getInstance(timeZone, locale);
+        currentCalendar = Calendar.getInstance(timeZone, locale);
+        todayCalendar = Calendar.getInstance(timeZone, locale);
         calendarWithFirstDayOfMonth = Calendar.getInstance(timeZone, locale);
         eventsCalendar = Calendar.getInstance(timeZone, locale);
         tempPreviousMonthCalendar = Calendar.getInstance(timeZone, locale);
@@ -192,8 +192,8 @@ class CompactCalendarController {
         // make setMinimalDaysInFirstWeek same across android versions
         eventsCalendar.setMinimalDaysInFirstWeek(1);
         calendarWithFirstDayOfMonth.setMinimalDaysInFirstWeek(1);
-        todayCalender.setMinimalDaysInFirstWeek(1);
-        currentCalender.setMinimalDaysInFirstWeek(1);
+        todayCalendar.setMinimalDaysInFirstWeek(1);
+        currentCalendar.setMinimalDaysInFirstWeek(1);
         tempPreviousMonthCalendar.setMinimalDaysInFirstWeek(1);
 
         setFirstDayOfWeek(firstDayOfWeekToDraw);
@@ -209,10 +209,10 @@ class CompactCalendarController {
         textHeight = textSizeRect.height() * 3;
         textWidth = textSizeRect.width() * 2;
 
-        todayCalender.setTime(new Date());
-        setToMidnight(todayCalender);
+        todayCalendar.setTime(new Date());
+        setToMidnight(todayCalendar);
 
-        currentCalender.setTime(currentDate);
+        currentCalendar.setTime(currentDate);
         setCalenderToFirstDayOfMonth(calendarWithFirstDayOfMonth, currentDate, -monthsScrolledSoFar, 0);
 
         initScreenDensityRelatedValues(context);
@@ -345,8 +345,8 @@ class CompactCalendarController {
         setUseWeekDayAbbreviation(useThreeLetterAbbreviation);
         eventsCalendar.setFirstDayOfWeek(day);
         calendarWithFirstDayOfMonth.setFirstDayOfWeek(day);
-        todayCalender.setFirstDayOfWeek(day);
-        currentCalender.setFirstDayOfWeek(day);
+        todayCalendar.setFirstDayOfWeek(day);
+        currentCalendar.setFirstDayOfWeek(day);
         tempPreviousMonthCalendar.setFirstDayOfWeek(day);
     }
 
@@ -390,7 +390,7 @@ class CompactCalendarController {
         monthsScrolledSoFar = monthsScrolledSoFar - 1;
         accumulatedScrollOffset.x = monthsScrolledSoFar * width;
         if(shouldSelectFirstDayOfMonthOnScroll){
-            setCalenderToFirstDayOfMonth(calendarWithFirstDayOfMonth, currentCalender.getTime(), 0, 1);
+            setCalenderToFirstDayOfMonth(calendarWithFirstDayOfMonth, currentCalendar.getTime(), 0, 1);
             setCurrentDate(calendarWithFirstDayOfMonth.getTime());
         }
         performMonthScrollCallback();
@@ -400,7 +400,7 @@ class CompactCalendarController {
         monthsScrolledSoFar = monthsScrolledSoFar + 1;
         accumulatedScrollOffset.x = monthsScrolledSoFar * width;
         if(shouldSelectFirstDayOfMonthOnScroll){
-            setCalenderToFirstDayOfMonth(calendarWithFirstDayOfMonth, currentCalender.getTime(), 0, -1);
+            setCalenderToFirstDayOfMonth(calendarWithFirstDayOfMonth, currentCalendar.getTime(), 0, -1);
             setCurrentDate(calendarWithFirstDayOfMonth.getTime());
         }
         performMonthScrollCallback();
@@ -521,8 +521,8 @@ class CompactCalendarController {
                 && dayOfMonth >= 0) {
             calendarWithFirstDayOfMonth.add(Calendar.DATE, dayOfMonth);
 
-            currentCalender.setTimeInMillis(calendarWithFirstDayOfMonth.getTimeInMillis());
-            performOnDayClickCallback(currentCalender.getTime());
+            currentCalendar.setTimeInMillis(calendarWithFirstDayOfMonth.getTimeInMillis());
+            performOnDayClickCallback(currentCalendar.getTime());
         }
     }
 
@@ -599,8 +599,8 @@ class CompactCalendarController {
         currentDirection = Direction.NONE;
         setCalenderToFirstDayOfMonth(calendarWithFirstDayOfMonth, currentDate, monthsScrolledSoFar(), 0);
 
-        if (calendarWithFirstDayOfMonth.get(Calendar.MONTH) != currentCalender.get(Calendar.MONTH) && shouldSelectFirstDayOfMonthOnScroll) {
-            setCalenderToFirstDayOfMonth(currentCalender, currentDate, monthsScrolledSoFar(), 0);
+        if (calendarWithFirstDayOfMonth.get(Calendar.MONTH) != currentCalendar.get(Calendar.MONTH) && shouldSelectFirstDayOfMonthOnScroll) {
+            setCalenderToFirstDayOfMonth(currentCalendar, currentDate, monthsScrolledSoFar(), 0);
         }
     }
 
@@ -680,9 +680,9 @@ class CompactCalendarController {
         accumulatedScrollOffset.x = 0;
         scroller.startScroll(0, 0, 0, 0);
         currentDate = new Date(dateTimeMonth.getTime());
-        currentCalender.setTime(currentDate);
-        todayCalender = Calendar.getInstance(timeZone, locale);
-        setToMidnight(currentCalender);
+        currentCalendar.setTime(currentDate);
+        todayCalendar = Calendar.getInstance(timeZone, locale);
+        setToMidnight(currentCalendar);
     }
 
     private void setToMidnight(Calendar calendar) {
@@ -726,6 +726,18 @@ class CompactCalendarController {
 
     void addMarkedDays(List<MarkedDay> markedDays) {
         markedDayContainer.addMarkedDays(markedDays);
+    }
+
+    MarkedDay getMarkedDayFor(long epochMillis) {
+        return markedDayContainer.getMarkedDay(epochMillis);
+    }
+
+    List<MarkedDay> getMarkedDaysForMonth(long epochMillis) {
+        return markedDayContainer.getMarkedDayForMonth(epochMillis);
+    }
+
+    void removeMarkedDay(long timeInMillis) {
+        markedDayContainer.removeMarkedDayByTime(timeInMillis);
     }
 
     void removeMarkedDay(MarkedDay markedDay) {
@@ -815,12 +827,12 @@ class CompactCalendarController {
         int currentMonth = currentMonthToDrawCalender.get(Calendar.MONTH);
         List<Events> uniqEvents = eventsContainer.getEventsForMonthAndYear(currentMonth, currentMonthToDrawCalender.get(Calendar.YEAR));
 
-        boolean shouldDrawCurrentDayCircle = currentMonth == todayCalender.get(Calendar.MONTH);
-        boolean shouldDrawSelectedDayCircle = currentMonth == currentCalender.get(Calendar.MONTH);
+        boolean shouldDrawCurrentDayCircle = currentMonth == todayCalendar.get(Calendar.MONTH);
+        boolean shouldDrawSelectedDayCircle = currentMonth == currentCalendar.get(Calendar.MONTH);
 
-        int todayDayOfMonth = todayCalender.get(Calendar.DAY_OF_MONTH);
-        int currentYear = todayCalender.get(Calendar.YEAR);
-        int selectedDayOfMonth = currentCalender.get(Calendar.DAY_OF_MONTH);
+        int todayDayOfMonth = todayCalendar.get(Calendar.DAY_OF_MONTH);
+        int currentYear = todayCalendar.get(Calendar.YEAR);
+        int selectedDayOfMonth = currentCalendar.get(Calendar.DAY_OF_MONTH);
         float indicatorOffset = bigCircleIndicatorRadius / 2;
         if (uniqEvents != null) {
             for (int i = 0; i < uniqEvents.size(); i++) {
@@ -937,11 +949,11 @@ class CompactCalendarController {
         //offset by one because we want to start from Monday
         int firstDayOfMonth = getDayOfWeek(monthToDrawCalender);
 
-        boolean isSameMonthAsToday = monthToDrawCalender.get(Calendar.MONTH) == todayCalender.get(Calendar.MONTH);
-        boolean isSameYearAsToday = monthToDrawCalender.get(Calendar.YEAR) == todayCalender.get(Calendar.YEAR);
-        boolean isSameMonthAsCurrentCalendar = monthToDrawCalender.get(Calendar.MONTH) == currentCalender.get(Calendar.MONTH) &&
-                                               monthToDrawCalender.get(Calendar.YEAR) == currentCalender.get(Calendar.YEAR);
-        int todayDayOfMonth = todayCalender.get(Calendar.DAY_OF_MONTH);
+        boolean isSameMonthAsToday = monthToDrawCalender.get(Calendar.MONTH) == todayCalendar.get(Calendar.MONTH);
+        boolean isSameYearAsToday = monthToDrawCalender.get(Calendar.YEAR) == todayCalendar.get(Calendar.YEAR);
+        boolean isSameMonthAsCurrentCalendar = monthToDrawCalender.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH) &&
+                                               monthToDrawCalender.get(Calendar.YEAR) == currentCalendar.get(Calendar.YEAR);
+        int todayDayOfMonth = todayCalendar.get(Calendar.DAY_OF_MONTH);
         boolean isAnimatingWithExpose = animationStatus == EXPOSE_CALENDAR_ANIMATION;
 
         int maximumMonthDay = monthToDrawCalender.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -998,7 +1010,7 @@ class CompactCalendarController {
                     defaultTypefaceToUse = markedDayTypeface;
                 }
 
-                if (currentCalender.get(Calendar.DAY_OF_MONTH) == day && isSameMonthAsCurrentCalendar && !isAnimatingWithExpose) {
+                if (currentCalendar.get(Calendar.DAY_OF_MONTH) == day && isSameMonthAsCurrentCalendar && !isAnimatingWithExpose) {
                     drawDayCircleIndicator(currentSelectedDayIndicatorStyle, canvas, xPosition, yPosition, currentSelectedDayBackgroundColor);
                     defaultCalenderTextColorToUse = currentSelectedDayTextColor;
                     defaultTypefaceToUse = selectedDayTypeface;
