@@ -60,11 +60,10 @@ public class MarkedDay {
 
     @Override
     public String toString() {
-        return "Event{" +
+        return "MarkedDay{" +
                 "color=" + color +
                 ", timeInMillis=" + timeInMillis +
                 ", data=" + data +
                 '}';
     }
-
 }

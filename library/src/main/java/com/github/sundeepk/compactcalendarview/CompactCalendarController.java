@@ -386,6 +386,11 @@ class CompactCalendarController {
         }
     }
 
+    void setCurrentMonth(Date firstDateOfMonth) {
+        currentDate = firstDateOfMonth;
+        setCalenderToFirstDayOfMonth(calendarWithFirstDayOfMonth, currentDate, -monthsScrolledSoFar, 0);
+    }
+
     private void scrollNext() {
         monthsScrolledSoFar = monthsScrolledSoFar - 1;
         accumulatedScrollOffset.x = monthsScrolledSoFar * width;

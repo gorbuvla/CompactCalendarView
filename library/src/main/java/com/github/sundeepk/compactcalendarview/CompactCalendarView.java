@@ -191,6 +191,15 @@ public class CompactCalendarView extends View {
         invalidate();
     }
 
+    /**
+     * Draws month associated with passed date.
+     * Useful when we need to show specific month.
+     */
+    public void setCurrentMonth(Date date) {
+        compactCalendarController.setCurrentMonth(date);
+        invalidate();
+    }
+
     public int getWeekNumberForCurrentMonth(){
         return compactCalendarController.getWeekNumberForCurrentMonth();
     }

@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -109,6 +110,9 @@ public class CompactCalendarTab extends Fragment {
 
         compactCalendarView.invalidate();
 
+        compactCalendarView.setCurrentDate(new Date(new Date().getTime() + TimeUnit.DAYS.toMillis(5)));
+
+        compactCalendarView.setCurrentMonth(new Date(new Date().getTime() + TimeUnit.DAYS.toMillis(44)));
 
         logEventsByMonth(compactCalendarView);
 
